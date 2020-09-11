@@ -1,0 +1,101 @@
+cabal-version:      2.2
+name:               named-pipes
+version:            0.0.0.0
+synopsis:           POSIX named pipes (FIFO files)
+license:            BSD-2-Clause
+license-file:       LICENSE
+author:             Peter Jones <pjones@devalot.com>
+maintainer:         Peter Jones <pjones@devalot.com>
+copyright:          Copyright (c) 2020 Peter J. Jones
+homepage:           https://github.com/pjones/named-pipes
+bug-reports:        https://github.com/pjones/named-pipes/issues
+category:           Web
+build-type:         Simple
+
+--------------------------------------------------------------------------------
+extra-source-files:
+  README.md
+  CHANGES.md
+
+--------------------------------------------------------------------------------
+source-repository head
+  type:     git
+  location: https://github.com/pjones/named-pipes.git
+
+--------------------------------------------------------------------------------
+flag maintainer
+  description: Enable settings for the package maintainer.
+  manual:      True
+  default:     False
+
+--------------------------------------------------------------------------------
+flag examples
+  description: Build the example programs
+  manual:      True
+  default:     False
+
+--------------------------------------------------------------------------------
+common options
+  default-language: Haskell2010
+  ghc-options:
+    -Wall -Wno-name-shadowing -Werror=incomplete-record-updates
+    -Werror=incomplete-uni-patterns -Werror=missing-home-modules
+    -Widentities -Wmissing-export-lists -Wredundant-constraints
+
+  if flag(maintainer)
+    ghc-options: -Werror -fwrite-ide-info -hiedir=.hie
+
+--------------------------------------------------------------------------------
+common extensions
+  default-extensions:
+    DataKinds
+    KindSignatures
+    LambdaCase
+    NamedFieldPuns
+    OverloadedStrings
+    RecordWildCards
+
+--------------------------------------------------------------------------------
+common dependencies
+  build-depends:
+    , base             >=4.9  && <5
+    , bytestring       ^>=0.10
+    , safe-exceptions  ^>=0.1
+
+  if !os(windows)
+    build-depends: unix ^>=2.7
+
+--------------------------------------------------------------------------------
+library
+  import:          options, extensions, dependencies
+  exposed-modules:
+    System.NamedPipe
+    System.NamedPipe.Internal
+
+  if os(windows)
+    exposed-modules: System.NamedPipe.Internal.Windows
+
+  else
+    exposed-modules: System.NamedPipe.Internal.Posix
+
+  hs-source-dirs:  src
+
+--------------------------------------------------------------------------------
+executable named-pipes-read
+  import:         options, extensions, dependencies
+  hs-source-dirs: examples
+  main-is:        named-pipes-read.hs
+  build-depends:  named-pipes
+
+  if !flag(examples)
+    buildable: False
+
+--------------------------------------------------------------------------------
+executable named-pipes-write
+  import:         options, extensions, dependencies
+  hs-source-dirs: examples
+  main-is:        named-pipes-write.hs
+  build-depends:  named-pipes
+
+  if !flag(examples)
+    buildable: False
