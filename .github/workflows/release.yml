@@ -43,7 +43,7 @@ jobs:
 
       - name: Configure and Freeze for Cache
         run: |
-          cabal configure -fexamples -fmaintainer --enable-tests --enable-benchmarks --test-show-details=direct
+          cabal configure -fexamples --enable-tests --enable-benchmarks --test-show-details=direct
           cabal freeze
 
       - name: Cache ~/.cabal/store
