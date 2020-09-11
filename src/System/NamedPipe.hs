@@ -93,3 +93,16 @@ withNamedPipe file action = do
 --
 -- >>> createNamedPipe "test.fifo" -- Create it if it doesn't exist.
 -- >>> withReadEnd "test.fifo" $ \pipe -> namedPipeRead pipe 1020
+--
+-- == Proper Use of this Library
+--
+-- This library is designed to be used as a communications channel with
+-- an external process.  In other words, a single Haskell process
+-- should either have the write end or the read end of the pipe open,
+-- but not both.  There are much more appropriate ways for threads in
+-- a Haskell process to communicate with one another.
+--
+-- If you do decide to open both ends of a pipe in the same process be
+-- aware of this issue:
+--
+-- <https://github.com/pjones/named-pipes/issues/1>
