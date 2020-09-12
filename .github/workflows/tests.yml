@@ -48,7 +48,7 @@ jobs:
           path: logs/
 
       - name: Install
-        run: cabal install all --installdir=artifacts --install-method=copy
+        run: cabal install all --installdir=../artifacts --install-method=copy
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
