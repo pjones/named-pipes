@@ -28,3 +28,12 @@ named pipes.  It follows expected semantics for named pipes, blocking
 the current thread without blocking the entire runtime.
 
 [fifo]: https://www.man7.org/linux/man-pages/man7/fifo.7.html
+
+## A Note About Windows Support
+
+Microsoft Windows has an IPC mechanism similar to POSIX named pipes.
+While this library does not currently support Windows, it was designed
+to allow Windows support to be added easily.
+
+If you are interested in contributing a Windows implementation please
+open an [issue](https://github.com/pjones/named-pipes/issues).
